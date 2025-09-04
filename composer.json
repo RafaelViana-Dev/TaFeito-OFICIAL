@@ -6,12 +6,13 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "blade-ui-kit/blade-heroicons": "^2.6",
-        "cmsmaxinc/filament-system-versions": "^2.0",
+        "devonab/filament-easy-footer": "^2.1.0",
         "filafly/brisk": "^1.0",
         "filament/filament": "^4.0",
         "filament/spatie-laravel-media-library-plugin": "^4.0",
+        "hugomyb/filament-media-action": "^4.0",
         "jeffersongoncalves/filament-cep-field": "^2.1",
         "joaopaulolndev/filament-edit-profile": "^2.0",
         "laravel/framework": "^12.0",
@@ -22,7 +23,8 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "livewire/flux": "^2.2",
         "nesbot/carbon": "^3.10",
-        "resend/resend-laravel": "^0.21.0"
+        "resend/resend-laravel": "^0.21.0",
+        "spatie/laravel-permission": "^6.21"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",

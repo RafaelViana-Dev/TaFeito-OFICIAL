@@ -3,6 +3,7 @@
 <div align="center">
   <img src="public/images/LabSIS.png" alt="LabSIS Logo" width="700" />
   <br>
+  <a href="https://www.labsis.dev.br">www.labsis.dev.br</a><br>
   <em>Transformando desafios reais em soluções inteligentes</em>
 </div>
 
@@ -11,7 +12,7 @@
     <a href="https://filamentphp.com"><img alt="Filament v3" src="https://img.shields.io/badge/Filament-v4-eab308?style=for-the-badge"></a>
     <a href="https://laravel.com"><img alt="Laravel v12+" src="https://img.shields.io/badge/Laravel-v12+-FF2D20?style=for-the-badge&logo=laravel"></a>
     <a href="https://livewire.laravel.com"><img alt="Livewire v3" src="https://img.shields.io/badge/Livewire-v3-FB70A9?style=for-the-badge"></a>
-    <a href="https://php.net"><img alt="PHP 8.3+" src="https://img.shields.io/badge/PHP-8.3+-777BB4?style=for-the-badge&logo=php"></a>
+    <a href="https://php.net"><img alt="PHP 8.4+" src="https://img.shields.io/badge/PHP-8.4+-777BB4?style=for-the-badge&logo=php"></a>
 </p>
 
 ## Sobre o labSIS SaaS KIT
@@ -24,12 +25,28 @@ O objetivo deste projeto é fornecer uma base sólida e rica em recursos para ac
 
 Toda a documentação sobre como utilizar os recursos, padrões e arquitetura deste kit está disponível na pasta [`/docs`](/docs). Recomendamos a leitura para todos os desenvolvedores que irão atuar neste projeto.
 
-- [**Utilizando Enumerações (Enums) com Filament**](/docs/enums.md)
-- [**Customização da Aparência do Painel**](/docs/customizando-layout.md)
 - [**Autenticação de Dois Fatores (2FA) no Filament**](/docs/autenticacao-2fa.md)
-- [**Entendendo o AppServiceProvider**](/docs/app-service-provider.md)
+- [**Cores no Filament**](/docs/cores-filament.md)
+- [**Customização da Aparência do Painel**](/docs/customizando-layout.md)
 - [**Edição de Perfil no Filament**](/docs/edicao-perfil.md)
-- [**Sistema de Suspensão de Usuários no Filament**](/docs/suspensao-usuarios.md)
+- [**Entendendo o AppServiceProvider**](/docs/app-service-provider.md)
+- [**Otimização com #[Computed]**](/docs/livewire-computed.md)
+- [**Login Unificado**](/docs/login-unificado.md)
+- [**Notificações**](/docs/notifications-trait.md)
+- [**Roles/Permissions**](/docs/roles-e-permissoes.md)
+- [**Suspensão de Usuários**](/docs/suspensao-usuarios.md)
+- [**Utilizando Enumerações (Enums) com Filament**](/docs/enums.md)
+- [**Widgets no Filament**](/docs/widgets-filament.md)
+
+## Pré-requisitos
+
+Antes de começar, certifique-se de ter instalado em sua máquina:
+
+- **Docker** - [Download](https://docs.docker.com/engine/install/)
+  - O Docker é essencial para este projeto pois possibilita criar um ambiente de desenvolvimento mais próximo do ambiente de produção, garantindo consistência entre diferentes máquinas e facilitando a implantação.
+- **Git** - [Download](https://git-scm.com/)
+- **Composer** - [Download](https://getcomposer.org/)
+- **Node.js** (versão 18 ou superior) - [Download](https://nodejs.org/)
 
 ## Como realizar a instalação
 
@@ -59,15 +76,15 @@ Copie o arquivo de exemplo `.env.example` para criar seu próprio arquivo de con
 
 ```bash
 cp .env.example .env
-php artisan key:generate
 ```
 
 **4. Configurar o Banco de Dados**
 
-Este projeto está configurado para utilizar sqlite. Execute as migrations para criar as tabelas no banco de dados. Para popular o banco com dados de exemplo, execute as seeders.
+Este projeto está configurado para utilizar PostgreSQL com Laravel Sail. Execute as migrations para criar as tabelas no banco de dados. Para popular o banco com dados de exemplo, execute as seeders.
 
 ```bash
-php artisan migrate --seed
+./vendor/bin/sail up -d
+./vendor/bin/sail artisan migrate --seed
 ```
 
 **5. Compilar os Assets**
@@ -75,18 +92,10 @@ php artisan migrate --seed
 Compile os arquivos de frontend (CSS e JavaScript) utilizando o Vite.
 
 ```bash
-npm run build
+./vendor/bin/sail npm run build
 ```
 
-**6. Iniciar o Servidor de Desenvolvimento**
-
-Finalmente, inicie o servidor de desenvolvimento local do Laravel.
-
-```bash
-php artisan serve
-```
-
-Sua aplicação estará disponível em `http://127.0.0.1:8000`. Para o painel administrativo, acesse `http://127.0.0.1:8000/admin`.
+A aplicação estará disponível em `http://localhost`. 
 
 ## Agradecimentos
 
@@ -105,43 +114,44 @@ Em especial, agradecemos a:
 
 O trabalho de vocês contribui significativamente para o avanço e a qualidade deste projeto.
 
+## ⚠️ Recursos em Desenvolvimento
+
+**Gestão de Mídias:**
+- **CRUD completo para mídias:** Sistema de gerenciamento para diferentes tipos de arquivos (áudio, vídeo, documento e imagem).
+- **Preview de Conteúdo:** Visualização direta de mídias com suporte a múltiplos formatos e fallbacks para conteúdo não carregável.
+- **Organização por Tipo:** Categorização automática baseada no MIME type com badges coloridos para identificação visual.
+- **Tamanho Humanizado:** Exibição do tamanho de arquivo em formato legível (KB, MB, GB).
+
 ## 🚀 Recursos Atuais
 
 O Kit oferece uma base sólida com os seguintes recursos já implementados:
 
-**Painel Administrativo (Filament)**
-- **Segurança:**
-  - **Autenticação de Dois Fatores (2FA):** Sistema de 2FA integrado ao perfil do usuário, compatível com aplicativos de autenticação (Google Authenticator, Authy, etc.).
-  - **Códigos de Recuperação:** Geração de códigos de recuperação para acesso seguro em caso de perda do dispositivo de autenticação.
-- **Gerenciamento de Usuários:**
-  - CRUD completo para usuários (Criação, Leitura, Atualização e Exclusão).
-  - **Sistema de Suspensão de Usuários:** Controle completo de acesso com toggle de suspensão, registro de motivo e timestamp automático.
-  - **Prevenção de Auto-Suspensão:** Usuários não podem suspender suas próprias contas, garantindo acesso contínuo.
-  - **Interface Visual Intuitiva:** Badges coloridos (verde para autorizado, vermelho para suspenso) na listagem de usuários.
+- **Gestão de Usuários:**
+  - **CRUD completo para usuários (Criação, Leitura, Atualização e Exclusão).**
+  - **Sistema de Suspensão de Usuários:** Controle completo de acesso com toggle de suspensão, registro de motivo e timestamp automático. Usuários suspensos são automaticamente bloqueados do acesso aos paineis.
   - **Organização em Abas:** Visualização detalhada organizada em abas (Informações Pessoais, Datas, Suspensão).
-  - **Sincronização Automática:** Campos `is_suspended` e `suspended_at` sincronizados automaticamente.
-  - **Controle de Acesso:** Usuários suspensos são automaticamente bloqueados do painel administrativo.
-  - **Notificações de Feedback:** Sistema completo de notificações para todas as ações administrativas.
-- **Edição de Perfil:**
-  - **Sistema de Avatar:** Upload e gerenciamento de foto de perfil com suporte a PNG, JPG e JPEG (máximo 1MB).
-  - **Configurações Personalizáveis:** Interface intuitiva para edição de informações pessoais, email e senha.
-  - **Integração com 2FA:** Configuração e gerenciamento de autenticação de dois fatores diretamente no perfil.
-  - **Códigos de Recuperação:** Geração e visualização de códigos de backup para acesso seguro.
-  - **Suporte Multi-idioma:** Seleção de idioma preferido (Português, Inglês, Espanhol) com persistência de preferência.
-  - **Menu Organizado:** Funcionalidade agrupada no menu "Configurações" para fácil acesso e organização.
 
-**Website / Landing Page**
-- **Página Inicial Completa:** Uma landing page moderna e responsiva construída com componentes Blade e TailwindCSS.
-- **Seções Pré-definidas:**
+- **Edição de Perfil:**
+    - **Avatar:** Upload e gerenciamento de foto de perfil com suporte a PNG, JPG e JPEG (máximo 1MB).
+    - **Configurações Personalizáveis:** Interface intuitiva para edição de informações pessoais, email e senha.
+    - **Autenticação de Dois Fatores (2FA):** Sistema de 2FA integrado ao perfil do usuário, compatível com aplicativos de autenticação (Google Authenticator, Authy, etc.).
+
+- **Login Unificado:**
+  - **Login com Email e Senha:** Acesso ao painel administrativo com autenticação padrão.
+- **Exibição de Widgets:** Widgets personalizados para exibição de métricas e informações relevantes.
+
+- **Website / Landing Page**
+  - **Página Inicial Completa:** Uma landing page moderna e responsiva construída com componentes Blade e TailwindCSS.
+  - **Seções Pré-definidas:**
   - **Hero:** Seção principal de boas-vindas.
   - **Benefícios:** Lista de vantagens da plataforma.
   - **Como Funciona:** Guia visual do processo.
   - **Depoimentos:** Seção de prova social com scroll automático.
   - **Tabela de Preços:** Componente interativo com seleção de ciclo de pagamento (mensal/anual).
   - **FAQ:** Acordeão de perguntas e respostas.
-- **Navegação Integrada:** Header e footer padronizados com links de navegação e acesso direto à plataforma (`/admin`).
+  - **Navegação Integrada:** Header e footer padronizados com links de navegação e acesso direto à plataforma (`/admin`).
 
-## 🛠️ Ferramentas de Desenvolvimento
+## 🛠️ Recomendação de Ferramentas de Desenvolvimento
 
 Este projeto utiliza um conjunto de ferramentas para garantir a qualidade, padronização e agilidade no desenvolvimento. Abaixo estão os pacotes incluídos no ambiente de desenvolvimento (`require-dev`):
 
@@ -150,14 +160,11 @@ Este projeto utiliza um conjunto de ferramentas para garantir a qualidade, padro
 -   **[fakerphp/faker](https://github.com/fakerphp/faker):** Gera dados falsos para popular o banco de dados em testes e seeders.
 -   **[larastan/larastan](https://github.com/larastan/larastan):** Realiza análise estática de código para encontrar bugs sem executar o código.
 -   **[laravel/boost](https://packagist.org/packages/laravel/boost):** Otimiza o desempenho de Agentes de IA para o desenvolvimento do sistema em ambiente de desenvolvimento.
--   **[laravel/pail](https://github.com/laravel/pail):** Ferramenta para monitorar e filtrar os logs da aplicação em tempo real no terminal.
 -   **[laravel/pint](https://github.com/laravel/pint):** Formata o código PHP para seguir um padrão de estilo consistente (PSR-12).
 -   **[laravel/sail](https://github.com/laravel/sail):** Ambiente de desenvolvimento local completo baseado em Docker.
 -   **[laravel/tinker](https://github.com/laravel/tinker):** Console interativo (REPL) para executar código no contexto da aplicação.
 -   **[leonardolima/laravel-security-check](https://github.com/leonardolima/laravel-security-check):** Verifica dependências do Composer em busca de vulnerabilidades de segurança.
 -   **[lucascudo/laravel-pt-br-localization](https://github.com/lucascudo/laravel-pt-br-localization):** Fornece traduções e configurações para a localização em português do Brasil.
--   **[mockery/mockery](https://github.com/mockery/mockery):** Framework para criar objetos de teste "mock" (simulados) para testes unitários.
--   **[nunomaduro/collision](https://github.com/nunomaduro/collision):** Apresenta erros e exceções de forma mais clara e informativa no terminal.
 -   **[pestphp/pest](https://github.com/pestphp/pest):** Framework de testes elegante e focado no desenvolvedor para PHP.
  
 ## 📄 Licença
@@ -172,4 +179,4 @@ Este projeto está licenciado sob a [MIT License](LICENSE).
 
 <div align="center">
   <strong>LabSIS - Transformando desafios reais em soluções inteligentes</strong>
-</div
+</div>
